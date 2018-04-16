@@ -14,6 +14,7 @@ class MsfConsole:
 
     # Variables
     console_id = ""
+    response = ""
 
     def __init__(self, username, password, port, host, ssl):
         self.username = username
@@ -60,6 +61,7 @@ class MsfConsole:
                 # Check for printable information
                 if len(resource['data']) > 1:
                     print resource['data']
+                    self.response = resource['data']
                     break
 
                 # If msf command still running try requesting again
@@ -130,6 +132,8 @@ class MsfConsole:
         self.read_output()
         return True
 
+    def get_response(self):
+        return self.response
 
     # Disconnect from msfconsole
     def disconnect(self):

