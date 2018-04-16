@@ -134,6 +134,9 @@ class MsfConsole:
 
     def get_response(self):
         return self.response
+        
+    def clr_response(self):
+        self.response = ""
 
     # Disconnect from msfconsole
     def disconnect(self):

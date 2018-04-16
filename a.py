@@ -176,7 +176,19 @@ class Main:
             		# Add directory auto completion
         			readline.parse_and_bind("tab: complete")
 					# Go to main menu
-        			self.exec_menu('main_menu')
+        			command = ""
+            
+            if command == "sessions":
+            		self.msfconsole.clr_response()
+            		self.msfconsole.exec_command(command)
+            		outfile = open('list.txt','w')
+            		while True:
+            			if self.msfconsole.get_response():
+            				break
+            		outfile.writelines(self.msfconsole.get_response())
+            		command = ""
+            		outfile.close()
+                
             # If command not empty send it to msfrpcd
             if command:
                 self.msfconsole.exec_command(command)
