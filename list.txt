@@ -2,23 +2,5 @@
 Active sessions
 ===============
 
-  Id  Name  Type                        Information          Connection
-  --  ----  ----                        -----------          ----------
-  2         meterpreter dalvik/android  u0_a169 @ localhost  172.20.22.202:4444 -> 172.20.33.53:43072 (172.20.33.53)
-  3         meterpreter dalvik/android  u0_a169 @ localhost  172.20.22.202:4444 -> 172.20.33.53:43074 (172.20.33.53)
-  4         meterpreter dalvik/android  u0_a169 @ localhost  172.20.22.202:4444 -> 172.20.33.53:43075 (172.20.33.53)
-  5         meterpreter dalvik/android  u0_a169 @ localhost  172.20.22.202:4444 -> 172.20.33.53:43076 (172.20.33.53)
-  6         meterpreter dalvik/android  u0_a169 @ localhost  172.20.22.202:4444 -> 172.20.33.53:43077 (172.20.33.53)
-  7         meterpreter dalvik/android  u0_a169 @ localhost  172.20.22.202:4444 -> 172.20.33.53:43078 (172.20.33.53)
-  8         meterpreter dalvik/android  u0_a169 @ localhost  172.20.22.202:4444 -> 172.20.33.53:43079 (172.20.33.53)
-  9         meterpreter dalvik/android  u0_a169 @ localhost  172.20.22.202:4444 -> 172.20.33.53:43080 (172.20.33.53)
-  10        meterpreter dalvik/android  u0_a169 @ localhost  172.20.22.202:4444 -> 172.20.33.53:43081 (172.20.33.53)
-  11        meterpreter dalvik/android  u0_a169 @ localhost  172.20.22.202:4444 -> 172.20.33.53:43082 (172.20.33.53)
-  12        meterpreter dalvik/android  u0_a169 @ localhost  172.20.22.202:4444 -> 172.20.33.53:43083 (172.20.33.53)
-  13        meterpreter dalvik/android  u0_a169 @ localhost  172.20.22.202:4444 -> 172.20.33.53:43084 (172.20.33.53)
-  14        meterpreter dalvik/android  u0_a169 @ localhost  172.20.22.202:4444 -> 172.20.33.53:43085 (172.20.33.53)
-  15        meterpreter dalvik/android  u0_a169 @ localhost  172.20.22.202:4444 -> 172.20.33.53:43086 (172.20.33.53)
-  16        meterpreter dalvik/android  u0_a169 @ localhost  172.20.22.202:4444 -> 172.20.33.53:43087 (172.20.33.53)
-  17        meterpreter dalvik/android  u0_a169 @ localhost  172.20.22.202:4444 -> 172.20.33.53:43088 (172.20.33.53)
-  18        meterpreter dalvik/android  u0_a169 @ localhost  172.20.22.202:4444 -> 172.20.33.53:43089 (172.20.33.53)
+No active sessions.
 
